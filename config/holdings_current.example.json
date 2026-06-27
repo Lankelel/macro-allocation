@@ -1,0 +1,50 @@
+{
+  "_DISCLAIMER": "⚠️ 示例数据：以下所有 amount_wan 金额均为虚构，绝非真实持仓，仅用于演示项目运行。基金代码/名称为公开信息。",
+  "source": "示例数据（非真实持仓，仅用于演示）",
+  "as_of": "2026-01-01",
+  "n_funds_active": 26,
+  "n_funds_total": 29,
+  "by_class": {
+    "stock": 40.0,
+    "bond": 25.0,
+    "gold": 2.0,
+    "commodity": 9.0
+  },
+  "stock_by_region": {
+    "US": 16.0,
+    "CN": 16.0,
+    "Asia": 8.0
+  },
+  "funds": [
+    { "code": "513100", "name": "国泰纳斯达克ETF", "asset_attr": "指数型海外股票", "region_raw": "🇺🇸 美国", "region": "US", "sector": "宽基(纳指100)", "class": "stock", "amount_wan": 4.0, "active": true },
+    { "code": "513500", "name": "博时标普500 ETF", "asset_attr": "指数型海外股票", "region_raw": "🇺🇸 美国", "region": "US", "sector": "宽基(标普500)", "class": "stock", "amount_wan": 4.0, "active": true },
+    { "code": "513290", "name": "汇添富纳指生物科技ETF", "asset_attr": "指数型海外股票", "region_raw": "🇺🇸 美国", "region": "US", "sector": "生物科技", "class": "stock", "amount_wan": 2.0, "active": true },
+    { "code": "005613", "name": "摩根富时发达REITs", "asset_attr": "QDII指数", "region_raw": "🌍 全球发达", "region": "US", "sector": "REITs/地产", "class": "stock", "amount_wan": 2.0, "active": true },
+    { "code": "016664", "name": "天弘全球高端制造", "asset_attr": "QDII混合偏股", "region_raw": "🌍 全球(含中)", "region": "US", "sector": "高端制造", "class": "stock", "amount_wan": 2.5, "active": true },
+    { "code": "513030", "name": "华安德国(DAX)", "asset_attr": "指数型海外股票", "region_raw": "🇩🇪 德国", "region": "其他", "sector": "宽基(DAX)", "class": "stock", "amount_wan": 0.0, "active": false },
+    { "code": "160416", "name": "华安标普全球石油", "asset_attr": "指数型海外(行业)", "region_raw": "🌍 全球发达", "region": "US", "sector": "石油", "class": "stock", "amount_wan": 1.5, "active": true },
+    { "code": "110020", "name": "易方达沪深300", "asset_attr": "指数型股票", "region_raw": "🇨🇳 中国", "region": "CN", "sector": "宽基(沪深300)", "class": "stock", "amount_wan": 2.0, "active": true },
+    { "code": "007994", "name": "华夏中证500增强", "asset_attr": "指数型股票", "region_raw": "🇨🇳 中国", "region": "CN", "sector": "宽基(中证500)", "class": "stock", "amount_wan": 1.5, "active": true },
+    { "code": "160422", "name": "华安创业板50", "asset_attr": "指数型股票", "region_raw": "🇨🇳 中国", "region": "CN", "sector": "宽基(创业板)", "class": "stock", "amount_wan": 1.5, "active": true },
+    { "code": "008887", "name": "华夏半导体芯片", "asset_attr": "指数型股票", "region_raw": "🇨🇳 中国", "region": "CN", "sector": "半导体芯片", "class": "stock", "amount_wan": 2.5, "active": true },
+    { "code": "501019", "name": "国泰国证航天军工", "asset_attr": "指数型股票", "region_raw": "🇨🇳 中国", "region": "CN", "sector": "航天军工", "class": "stock", "amount_wan": 1.5, "active": true },
+    { "code": "007718", "name": "中银创新医疗", "asset_attr": "混合偏股", "region_raw": "🇨🇳 中国+港股", "region": "CN", "sector": "医疗", "class": "stock", "amount_wan": 1.5, "active": true },
+    { "code": "005576", "name": "华泰柏瑞新金融地产", "asset_attr": "混合灵活", "region_raw": "🇨🇳 中国+港股", "region": "CN", "sector": "金融地产", "class": "stock", "amount_wan": 1.5, "active": true },
+    { "code": "007751", "name": "景顺长城沪港深红利低波", "asset_attr": "指数型股票", "region_raw": "🇨🇳 中国+港股", "region": "CN", "sector": "红利策略", "class": "stock", "amount_wan": 2.0, "active": true },
+    { "code": "011583", "name": "大成港股精选", "asset_attr": "QDII混合偏股", "region_raw": "🇭🇰 港股", "region": "CN", "sector": "综合", "class": "stock", "amount_wan": 2.0, "active": true },
+    { "code": "008763", "name": "天弘越南市场股票", "asset_attr": "QDII普通股票", "region_raw": "🇻🇳 越南", "region": "Asia", "sector": "综合(行业轮动)", "class": "stock", "amount_wan": 3.0, "active": true },
+    { "code": "006105", "name": "宏利印度机会", "asset_attr": "QDII普通股票", "region_raw": "🇮🇳 印度", "region": "Asia", "sector": "综合", "class": "stock", "amount_wan": 1.5, "active": true },
+    { "code": "050015", "name": "博时大中华亚太精选", "asset_attr": "QDII普通股票", "region_raw": "🌏 大中华+亚太", "region": "Asia", "sector": "综合", "class": "stock", "amount_wan": 2.0, "active": true },
+    { "code": "520830", "name": "华泰柏瑞沙特 ETF", "asset_attr": "QDII指数", "region_raw": "🇸🇦 沙特", "region": "Asia", "sector": "综合", "class": "stock", "amount_wan": 1.5, "active": true },
+    { "code": "003156", "name": "招商招悦纯债A", "asset_attr": "纯债", "region_raw": "🇨🇳 中国", "region": null, "sector": "-", "class": "bond", "amount_wan": 7.0, "active": true },
+    { "code": "004388", "name": "鹏华丰享债券", "asset_attr": "纯债", "region_raw": "🇨🇳 中国", "region": null, "sector": "-", "class": "bond", "amount_wan": 7.0, "active": true },
+    { "code": "000914", "name": "中加纯债债券", "asset_attr": "纯债", "region_raw": "🇨🇳 中国", "region": null, "sector": "-", "class": "bond", "amount_wan": 0.0, "active": false },
+    { "code": "002400", "name": "南方亚洲美元债", "asset_attr": "QDII纯债", "region_raw": "🌏 亚洲", "region": null, "sector": "-", "class": "bond", "amount_wan": 5.0, "active": true },
+    { "code": "008367", "name": "富国亚洲收益债", "asset_attr": "QDII纯债", "region_raw": "🌏 亚洲", "region": null, "sector": "-", "class": "bond", "amount_wan": 4.0, "active": true },
+    { "code": "206006", "name": "鹏华全球中短债", "asset_attr": "QDII混合债", "region_raw": "🌍 全球", "region": null, "sector": "-", "class": "bond", "amount_wan": 2.0, "active": true },
+    { "code": "011779", "name": "易方达稳泰一年持有", "asset_attr": "混合偏债", "region_raw": "🇨🇳 中国+港股", "region": null, "sector": "综合", "class": "bond", "amount_wan": 0.0, "active": false },
+    { "code": "002610", "name": "博时黄金ETF", "asset_attr": "商品(黄金)", "region_raw": "🇨🇳 中国", "region": null, "sector": "黄金", "class": "gold", "amount_wan": 2.0, "active": true },
+    { "code": "160216", "name": "国泰大宗商品配置", "asset_attr": "QDII商品", "region_raw": "🌍 全球", "region": null, "sector": "综合大宗", "class": "commodity", "amount_wan": 9.0, "active": true }
+  ],
+  "drift_vs_holdings_yaml": {}
+}

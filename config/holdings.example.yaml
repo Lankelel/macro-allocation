@@ -1,0 +1,64 @@
+# ==========================================================================
+# ⚠️⚠️⚠️  本文件为「示例数据」——以下所有金额均为虚构，绝非真实持仓  ⚠️⚠️⚠️
+# --------------------------------------------------------------------------
+# · 用途：仅用于演示本项目如何运行（让你不接入个人数据也能跑通全流程）。
+# · 所有 *_wan（万元金额）/ total_assets 都是编造的整数，不代表任何人的真实资产。
+# · 保留的 SAA 比例、基金代码、方法论注释 = 公开信息 / 项目方法，非个人隐私。
+# · 用法：复制本文件为 config/holdings.yaml 即可跑通全流程。
+# ==========================================================================
+
+total_assets_wan: 100.0          # 示例总资产（假）
+
+# 锁定资产（不参与优化）
+locked:
+  insurance_wan: 5.0
+
+# 大类配置目标（SAA 战略锚）——这是方法/框架，非个人数据
+# 思路：股票风险贡献偏高时，把权重小幅让给"真分散器"黄金，并在股票内部做低波替换。
+saa_target:
+  stock: 0.37
+  bond: 0.30
+  commodity: 0.15
+  gold: 0.03         # 独立黄金 sleeve（真分散器，服务"降股票风险贡献"目标）
+  high_risk: 0.05
+  insurance: 0.05    # 已锁定
+  cash: 0.05
+
+# 当前各大类金额（w · 示例假数据，故意与目标有偏离，好让再平衡器有活可干）
+current:
+  stock_wan: 40.0      # 超配（vs 目标 37）→ 触发减持
+  bond_wan: 25.0       # 低配（vs 目标 30）→ 触发加仓
+  commodity_wan: 9.0   # broad+oil（黄金已拆独立类）
+  gold_wan: 2.0
+  high_risk_wan: 0.0
+  insurance_wan: 5.0
+  cash_wan: 19.0       # 含待投资
+
+# 大类代表基金（用于跨大类风险贡献诊断）——基金代码为公开信息
+# stock 用「篮子」(地域权重 美40%/中40%/亚20%)，更贴合全球持仓
+class_representatives:
+  stock:
+    name: "全球股票组合(代表·低波替换后)"
+    weight: 0.37
+    basket:                       # 篮子内权重之和=1；按地域 美40%/中40%/亚20%
+      - { code: "513400", name: "鹏华道琼斯",   region: US,   w: 0.20 }
+      - { code: "513500", name: "博时标普500",  region: US,   w: 0.20 }
+      - { code: "007751", name: "景顺长城沪港深红利低波",  region: CN,   w: 0.40 }
+      - { code: "008763", name: "天弘越南",      region: Asia, w: 0.20 }
+  bond:      { code: "003156", name: "招商招悦纯债", weight: 0.30 }
+  commodity: { code: "160216", name: "国泰大宗商品", weight: 0.15 }
+  gold:      { code: "002610", name: "博时黄金ETF",  weight: 0.03 }
+
+# sleeve 细分（用于二级权重分配 · 示例假金额）
+sleeves:
+  commodity:
+    gold: { code: "002610", name: "博时黄金ETF", current_wan: 2.0 }
+    oil:  { code: "160416", name: "华安标普全球石油", current_wan: 2.0 }
+    broad: { code: "160216", name: "国泰大宗商品配置", current_wan: 7.0 }
+
+  stock_region:
+    US:   { target_pct: 0.40, current_wan: 16.0 }
+    CN:   { target_pct: 0.40, current_wan: 16.0 }
+    Asia: { target_pct: 0.20, current_wan: 8.0 }
+    EU:   { target_pct: 0.00, current_wan: 0.0 }
+    JP:   { target_pct: 0.00, current_wan: 0.0 }

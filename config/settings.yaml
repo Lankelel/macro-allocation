@@ -1,0 +1,108 @@
+# 系统参数 - 落地 6 个已确认的设计决策（2026-06-01）
+
+# 关注的 6 大方向（行业大方向，不细分二级）
+directions:
+  - AI            # AI/科技：芯片、算力、应用、电力配套
+  - energy        # 能源/大宗商品：黄金、原油、电力、农产品
+  - medical       # 医疗/老龄化
+  - military      # 军工/地缘
+  - consumer      # 消费/新消费
+  - finance       # 金融/红利
+
+# M1 资讯模块
+m1:
+  source: "horizon"          # 决策1：用 Horizon（daily_stock_analysis 留作 V2）
+  # daily_stock_analysis 留作 V2 个股分析层参考
+  # ⑩ 抓取窗口（2026-06-04 校准）：职责分离——宏观慢变量(增长/通胀)由⑤美林时钟独立抓官方PMI/CPI，
+  #   不靠新闻窗口；新闻层只负责"近期叙事/行业催化剂"(衰减快→越近越相关)。故无需长窗口。
+  #   实测：720h(30天)→简报~80k字符、>20min超时跑不完。336h(14天)≈减半、能跑完、更新鲜少噪音。
+  run_fresh: false           # main.py 是否触发 Horizon 重抓（开发默认 false 省 API；季度自动跑设 true）
+  hours: 336                 # 回看窗口(小时)=14天。可选 168(7天,更聚焦) / 720(30天,实测超时不推荐)
+  # ⑪ 人工资讯源（公众号无法自动抓 → 手动粘贴到该文件，M1 合并进简报供 M2 阅读）
+  manual_sources_file: "config/manual_sources.md"
+  wechat_accounts:           # 关注的公众号清单（提醒用；内容仍需手动粘贴到 manual_sources_file）
+    - "智谷趋势Trend"        # 宏观周月资讯（示例）
+    - "泽平宏观"             # 宏观（任泽平团队）
+    - "远方青木"             # 宏观/时政评论
+    - "太阳照常升起"         # 宏观/地缘
+    - "思哲与财富"           # 投资/财富
+    - "聪明投资者"           # 投资/基金经理访谈
+    - "薛洪言微语"           # 金融/宏观
+    - "咩咩说"               # 投资观点
+    - "WBusiness商业"        # 商业
+    - "券商中国"             # 券商/市场资讯
+    - "新财富"               # 财经/研究
+    - "中国基金报"           # 基金行业资讯
+    - "澎湃新闻"             # 综合时政财经
+
+# M2 分析模块
+m2:
+  provider: "deepseek"       # 模型：DeepSeek（OpenAI 兼容接口）
+  persona_model: "deepseek-chat"      # 4 位大师用 chat
+  moderator_model: "deepseek-reasoner"  # Moderator 综合用 reasoner（更强推理）
+  masters:                   # 决策2：4 位大师不换人
+    - dalio                  # 达利欧 - 经济周期视角
+    - howard_marks           # 霍华德·马克斯 - 市场情绪与估值
+    - buffett                # 巴菲特 - 长期价值与护城河
+    - soros                  # 索罗斯 - 反身性与趋势拐点
+  invocation: "parallel"     # 决策3：并行（背对背独立观点）
+  confidence_filter: false   # 决策6：V1 不加置信度过滤
+  # —— 稳定性（解决跑批波动）——
+  samples_per_persona: 3     # 每位大师跑 N 次，对每个维度取中位数评分
+  persona_temperature: 0.2   # 降低温度减少随机性
+  moderator_temperature: 0.0 # Moderator 尽量确定性
+
+# M3 决策模块
+m3:
+  method: "tactical_tilting_ew"  # Tactical Tilting + Equal Weight Baseline
+  step_per_score: 0.02           # 决策4：单位调整步长 2%（每 +1 评分 = +2%）
+  max_deviation: 0.10            # 决策5：累计偏离上限 10%
+  max_single_step: 0.05          # 单次调整上限 5%
+  max_single_holding: 0.10       # 单只产品上限 10%
+
+# V2.3 Black-Litterman（校准后参数，2026-06-02）
+bl:
+  step_return: 0.015         # 每 1 分评分对应的预期年化超额收益偏移（3%→1.5% 调温和）
+  delta: 2.5                 # 风险厌恶系数（商品 sleeve 用）
+  confidence_scale: 0.5      # 置信度缩放：实际置信度 = (|评分|/2) × 此值（降低观点强度，倾斜更温和）
+  max_weight: 0.50           # sleeve 内单只权重上限
+  risk_free: 0.02
+  # ② 股票地域：更高的风险厌恶 → 优化更防御 → 偏向低波地域 → 压低股票sleeve波动（服务降股票风险目标）
+  stock_risk_aversion: 5.0
+  stock_max_weight: 0.50     # 单一地域上限（防止过度集中某地域）
+
+# 低波红利替换（处方第①步，最高效）：保持股票占比不变，在股票内部把权重从高波宽基/成长挪向低波红利
+# 风格来源绝不用名字——用 RBSA 收益回归(骨干) + 看穿持仓(交叉验证)，见 fund-style-data-source 记忆
+style_tilt:
+  lookback_days: 504          # RBSA 回归窗口（≈2年，和风险引擎一致）
+  factor_indices:             # A股风格因子指数（csindex；约束回归 系数≥0、和=1）。仅对A股基金有效
+    红利低波: "H30269"        # 中证红利低波动指数
+    成长:     "000918"        # 沪深300成长
+    价值:     "000919"        # 沪深300价值
+  # 替换测算：同地域内「高波腿 → 低波腿」，保持股票总占比与地域权重不变
+  # 低波标的的认定一律靠数据：A股用 RBSA(载在红利低波因子) + 看穿持仓；美股因A股风格回归不适用，改用波动/相关性验证
+  swaps:
+    - region: CN
+      from_code: "110020"     # 沪深300宽基(波动17.2%)
+      to: { code: "007751", name: "景顺长城沪港深红利低波" }   # RBSA 实测54%红利低波
+    - region: US
+      from_code: "513100"     # 纳指(波动21.5%，股票波动主源)
+      to: { code: "513400", name: "鹏华道琼斯ETF" }              # 实测波动15.0%、与纳指相关0.77(真分散)
+  holdings_check: ["110020", "007751"]   # 看穿持仓交叉验证(A股可穿透；美股QDII穿透难，略)
+
+# ③ E3 波动率目标（动态削峰：股票近期波动飙升时机械减仓转现金，服务降股票风险目标）
+# 校准(2026-06-03)：回测暴露固定12%目标对"已降波组合"偏松、几乎不触发 → 改默认 relative 模式，
+# 以该 sleeve 自身长期波动为基准，自适应任何组合（原始篮 or 低波篮都对）。见 backtest 结论。
+vol_target:
+  mode: relative          # relative=以该sleeve自身长期波动为基准(推荐,自适应)；absolute=固定target_vol
+  baseline_lookback: 252  # relative 模式：长窗口(≈1年)算"该sleeve的正常波动"作基准
+  target_vol: 0.12        # absolute 模式才用：固定目标年化波动
+  lookback_short: 60      # 短窗口交易日（≈1季度），捕捉"波动飙升"；比基准长窗更灵敏
+  max_multiplier: 1.0     # 仓位乘数上限（无杠杆：平静时最多满仓 SAA 股票权重，不超配）
+  floor_multiplier: 0.5   # 乘数下限（最多砍掉一半股票，防过度空仓踏空反弹）
+
+# 再平衡
+rebalance:
+  threshold: 0.05            # 偏离 5% 触发
+  force_quarterly: true      # 每季度强制一次
+  cash_floor_wan: 5.0        # 最低现金缓冲（万）：刚性现金(月开支1-2w)，再平衡不把现金清到此线以下
