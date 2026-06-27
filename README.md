@@ -180,6 +180,14 @@ python -m uv run python -m backtest --multi     # 多区间深熊回测
 
 ---
 
+## 数据源 / 运行前提
+
+- 📊 **行情 / 财务数据 = [akshare](https://akshare.akfamily.xyz/)（免费、需联网）**——量化层、选基（`fund_selector`）、个股（`stock_selector`）、研报（`report_fetcher`）都用它，**无需任何付费数据 key**。
+- 🔑 **DeepSeek key**：仅 M1 资讯打分 / M2 大师研判需要（见 `.env.example`）。
+- 🛰️ 个股方法文档里提到的 **iFinD MCP 是可选增强**（"SKILL 层"用 Claude + iFinD 做产业链定性研判），**跑 Python 模块本身不需要**。
+
+---
+
 ## 路线图
 
 - [x] 定性层 M1→M2→M3 + 美林时钟
