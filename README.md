@@ -98,6 +98,8 @@ flowchart TD
 
 ## 快速开始
 
+**前置**：**Python 3.13** + [uv](https://docs.astral.sh/uv/)（包管理器）。若未装 uv：`pip install uv`。
+
 ```bash
 # 1. 装依赖（用 uv）
 python -m uv sync
@@ -106,12 +108,16 @@ python -m uv sync
 cp config/holdings.example.yaml config/holdings.yaml
 cp config/holdings_current.example.json config/holdings_current.json
 
-# 3. 填 API key（M1/M2 用 DeepSeek）
+# 3.（可选）填 API key —— 只有 M1/M2（资讯+大师研判）需要 DeepSeek key
 cp .env.example .env   # 然后把 DEEPSEEK_API_KEY 填进去
 
-# 4. 跑全流程
+# 4. 跑全流程（需要 key）
 python -m uv run python main.py
 ```
+
+> 💡 **不填 key 也能玩**：量化层和工具模块用**示例数据 + akshare（免费、联网）**即可跑，无需 DeepSeek key——
+> 例如 `python -m uv run python -m fund_rebalancer`（出单只调仓清单）、`-m diagnostic`（风险诊断）、`-m fund_selector 红利低波`（选基）、`-m stock_selector`（个股）。
+> 只有涉及 M1 资讯抓取 / M2 大师打分（`main.py` 全流程、`--qual-only`）才需要 key。
 
 ---
 
