@@ -93,6 +93,26 @@ def compute_risk_contribution(weights: dict[str, float], cov: dict[str, dict[str
     }
 
 
+def stock_rc_with_satellite(class_returns: pd.DataFrame, class_weights: dict,
+                            sat_returns=None, sat_weight: float = 0.0, risk_cap: float = RISK_CAP) -> dict:
+    """把卫星仓个股篮子并入股票类后，算「股票(含卫星)」风险贡献占比。
+    class_returns: 各大类日收益(stock/bond/commodity...)；sat_returns: 个股篮子合成日收益(单列 DataFrame 或 Series)。
+    个股并入权益同组，按 sat_weight(占总投资比)加进股票腿；返回 {stock_rc, pass, portfolio_vol, rc_pct}。"""
+    df = class_returns.copy()
+    weights = dict(class_weights)
+    if sat_returns is not None and sat_weight > 0:
+        sat = sat_returns.iloc[:, 0] if hasattr(sat_returns, "columns") else sat_returns
+        df = df.join(sat.rename("stock_sat"), how="inner").dropna()
+        weights = {**weights, "stock_sat": sat_weight}
+    classes = list(df.columns)
+    risk = compute_risk(df)
+    rc = compute_risk_contribution({c: weights.get(c, 0.0) for c in classes}, risk["cov_annual"], classes)
+    rcp = rc["risk_contribution_pct"]
+    stock_rc = round(rcp.get("stock", 0.0) + rcp.get("stock_sat", 0.0), 4)
+    return {"stock_rc": stock_rc, "pass": stock_rc <= risk_cap,
+            "portfolio_vol": rc["portfolio_vol"], "rc_pct": rcp}
+
+
 def diagnose(lookback_days: int = 504) -> dict:
     """V2.2 主入口：跑诊断，输出双视图 + 处方。"""
     with open(BASE / "config" / "holdings.yaml", encoding="utf-8") as f:

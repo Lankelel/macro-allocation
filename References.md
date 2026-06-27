@@ -174,3 +174,34 @@
 ## 🔗 与设计的关系
 
 支撑 M2（`m2_analysis/`，4 大师 persona + Moderator）。结论：范式可行、有成熟同行（ai-hedge-fund 即 13-persona 版），本项目已规避多个公认坑；剩余风险（persona 趋同/归因不可信/回测污染）靠"当辅助 + 人工 review + 数据化量化层"兜底。
+
+---
+
+# 个股选择层调研（卫星仓·应用金融 skills）
+
+> 用户收藏的 11 篇中文资料（10 公众号 + 1 小红书，2026-06-15 经 OpenCLI 真实 Chrome 读取）。支撑 PRD 第十二章 12.1 个股选择层。设计见 `docs/superpowers/specs/2026-06-15-stock-selector-design.md`。
+
+## 🎯 核心收敛洞察
+
+11 篇高度收敛于一点：**把"选股方法论"封装成 `SKILL.md`(Agent Skills 标准)，让 AI 照着执行**。Anthropic 官方库、中金分析师蒸馏、量化策略自进化、himself65、Serenity 系列——全是这套。且共守一条铁律 **"AI drafts, humans sign off"**(AI 起草、人签字)，与本项目"输出建议、人在回路"完全一致。
+
+## 📚 5 类来源
+
+**A. Anthropic 官方金融库（5 篇）** — `github.com/anthropics/financial-services`(16.9k⭐)：10 端到端 Agent + 7~9 垂直 Skill 包(含 **equity-research**：财报笔记/首次覆盖/模型更新) + 11 个 MCP 数据源(Morningstar/S&P/FactSet/Moody's/Daloopa/LSEG/PitchBook…多需付费)。两种部署(Cowork 交互 / Managed API 批跑)。
+- [二星讲AI·SOP被公开](https://mp.weixin.qq.com/s/z5cPreA2pGL2lTv3uQblew) ｜ [深度拆解16.9k⭐](https://mp.weixin.qq.com/s/w1qPgYteUA5jedYlA6bwpQ) ｜ [中文全解·10agent/9插件](https://mp.weixin.qq.com/s/w-4hoSO-j0Uy_uw2KcwkEw) ｜ [11数据源MCP端点](https://mp.weixin.qq.com/s/eSoXVeWedNFpWCioio0_rg) ｜ 小红书同主题
+
+**B. 券商分析师 Skill 蒸馏（1 篇）** — 中金「老于」把首席 30 万字研报蒸馏成 SKILL.md，框架 **假设验证→盈利预测(底中顶三情景)→估值锚定(历史中枢±行业溢价)→风险清单(≥3条可证伪)**。东财/国君/广发/国信都在做。→ 本设计评估层"分析师四步法"直接取自此。
+- [中金老于·分析师Skill](https://mp.weixin.qq.com/s/-yh-MNukPx3NLJYZr6m44Q)
+
+**C. 量化策略自进化（1 篇）** — AutoResearch：选股逻辑写进 Skill(策略内核/因子边界/组合约束/迭代边界/评价体系)，**训练/验证/测试集隔离防过拟合**。稳健低波价值策略 13.47%→15.67% 年化、夏普 0.69→0.89。
+- [AutoResearch选股自进化](https://mp.weixin.qq.com/s/5ERIAdoHCmu1JhzA0Me5yQ)
+
+**D. 开源量化工具栈（2 篇）** — OpenBB(免费彭博)/qlib(微软)/Lean/Backtrader/Riskfolio-Lib/yfinance/FinanceToolkit/vectorbt；himself65 `finance-skills`(20 技能：earnings-preview/recap、etf-premium、options-payoff、**sepa-strategy**[Minervini]、stock-correlation、stock-liquidity，底层 yfinance)。⚠️ 多基于 yfinance(美股友好、A 股弱)，本项目 A 股用 akshare。
+- [Thea·10个开源金融工具](https://mp.weixin.qq.com/s/ald970zsyAYrctYRCaWK_Q) ｜ [himself65·20金融skill](https://mp.weixin.qq.com/s/suEXbqcamVUvZKszBbFUMg)
+
+**E. 产业链选股法 / AI 实盘（2 篇）** — Serenity「白毛股神」**产业链五步法**：系统变化→拆产业链→锁稀缺环节→找未覆盖公司→证伪(WindClaw 做成数字人+Skill)；另一篇 Gate.io 模拟盘 AI 交易实践。→ 本设计发现层产业链召回取自此(仅借通用框架，不复用网红本人/不抄产品)。
+- [WindClaw×Serenity产业链选股](https://mp.weixin.qq.com/s/L2ZDdYEfOa2jMAB0Lz6vyw) ｜ [Gate.io模拟盘AI交易](https://mp.weixin.qq.com/s/CxnfmTxfnOD0h2fFFqt5FQ)
+
+## 🔗 与设计的关系
+
+支撑个股选择层(`stock_selector/`)。结论：①"方法论 Skill 化"是行业共识，本设计走方案 B(SKILL.md 编排)；②可复用方法论 = 产业链五步(发现层) + 分析师四步法(评估层)；③工具/数据多基于 yfinance(美股)，本项目 A 股用 akshare、留抽象层扩美股；④付费数据源(Morningstar/S&P)先不接。⚠️ 注意 Serenity 类网红法有幸存者偏差，本设计用多源印证 + 数据铁律 + 证伪检查兜底。

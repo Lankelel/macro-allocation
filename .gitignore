@@ -1,6 +1,7 @@
 # ===== 真实个人数据（绝不入公开库；用 *.example.* 替身）=====
 config/holdings.yaml
 config/holdings_current.json
+portfolio_monitor/holdings.json
 outputs/
 
 # ===== 密钥 / 环境变量 =====

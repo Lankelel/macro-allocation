@@ -14,33 +14,31 @@ locked:
   insurance_wan: 5.0
 
 # 大类配置目标（SAA 战略锚）——这是方法/框架，非个人数据
-# 思路：股票风险贡献偏高时，把权重小幅让给"真分散器"黄金，并在股票内部做低波替换。
 saa_target:
   stock: 0.37
   bond: 0.30
   commodity: 0.15
-  gold: 0.03         # 独立黄金 sleeve（真分散器，服务"降股票风险贡献"目标）
+  gold: 0.03
   high_risk: 0.05
-  insurance: 0.05    # 已锁定
+  insurance: 0.05
   cash: 0.05
 
 # 当前各大类金额（w · 示例假数据，故意与目标有偏离，好让再平衡器有活可干）
 current:
-  stock_wan: 40.0      # 超配（vs 目标 37）→ 触发减持
-  bond_wan: 25.0       # 低配（vs 目标 30）→ 触发加仓
-  commodity_wan: 9.0   # broad+oil（黄金已拆独立类）
+  stock_wan: 40.0
+  bond_wan: 25.0
+  commodity_wan: 9.0
   gold_wan: 2.0
   high_risk_wan: 0.0
   insurance_wan: 5.0
-  cash_wan: 19.0       # 含待投资
+  cash_wan: 19.0
 
 # 大类代表基金（用于跨大类风险贡献诊断）——基金代码为公开信息
-# stock 用「篮子」(地域权重 美40%/中40%/亚20%)，更贴合全球持仓
 class_representatives:
   stock:
     name: "全球股票组合(代表·低波替换后)"
     weight: 0.37
-    basket:                       # 篮子内权重之和=1；按地域 美40%/中40%/亚20%
+    basket:
       - { code: "513400", name: "鹏华道琼斯",   region: US,   w: 0.20 }
       - { code: "513500", name: "博时标普500",  region: US,   w: 0.20 }
       - { code: "007751", name: "景顺长城沪港深红利低波",  region: CN,   w: 0.40 }

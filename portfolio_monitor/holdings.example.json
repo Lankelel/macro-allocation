@@ -1,0 +1,19 @@
+{
+  "_DISCLAIMER": "⚠️ 示例数据：以下所有 amount_w 金额均为虚构，绝非真实持仓，仅用于演示周报监控模块。基金代码/名称为公开信息。",
+  "as_of": "2026-01-01",
+  "note": "金额单位=万元(w)，示例假数据。market=true 表示有每日净值/价格、参与涨跌计算；market=false 为无市价的固定资产。用法：复制为 holdings.json 即可跑通。",
+  "holdings": [
+    {"code": "003156", "name": "招商招悦纯债A",        "amount_w": 7.0, "klass": "债券", "market": true},
+    {"code": "004388", "name": "鹏华丰享债券",          "amount_w": 7.0, "klass": "债券", "market": true},
+    {"code": "008367", "name": "富国亚洲收益债QDII A",  "amount_w": 4.0, "klass": "债券", "market": true},
+    {"code": "002400", "name": "南方亚洲美元债QDII",    "amount_w": 5.0, "klass": "债券", "market": true},
+    {"code": "513400", "name": "鹏华道琼斯ETF",         "amount_w": 4.0, "klass": "股票", "market": true, "etf": true},
+    {"code": "513500", "name": "博时标普500ETF",        "amount_w": 4.0, "klass": "股票", "market": true, "etf": true},
+    {"code": "007751", "name": "景顺长城沪港深红利低波", "amount_w": 2.0, "klass": "股票", "market": true},
+    {"code": "008887", "name": "华夏国证半导体芯片联接A","amount_w": 2.5, "klass": "股票", "market": true},
+    {"code": "002610", "name": "博时黄金ETF",           "amount_w": 2.0, "klass": "黄金", "market": true, "etf": true},
+    {"code": "160216", "name": "国泰大宗商品配置QDII",  "amount_w": 9.0, "klass": "商品", "market": true},
+    {"name": "保险(锁定)",   "amount_w": 5.0,  "klass": "保险", "market": false},
+    {"name": "现金",        "amount_w": 19.0, "klass": "现金", "market": false}
+  ]
+}

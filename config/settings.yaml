@@ -21,7 +21,7 @@ m1:
   # ⑪ 人工资讯源（公众号无法自动抓 → 手动粘贴到该文件，M1 合并进简报供 M2 阅读）
   manual_sources_file: "config/manual_sources.md"
   wechat_accounts:           # 关注的公众号清单（提醒用；内容仍需手动粘贴到 manual_sources_file）
-    - "智谷趋势Trend"        # 宏观周月资讯（示例）
+    - "智谷趋势Trend"        # 宏观周月资讯（Finance.md 提到）
     - "泽平宏观"             # 宏观（任泽平团队）
     - "远方青木"             # 宏观/时政评论
     - "太阳照常升起"         # 宏观/地缘

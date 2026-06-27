@@ -138,5 +138,15 @@ def _render(r: dict) -> str:
     else:
         lines.append("本期无大类需加仓（或缺口过小），无需选基填充。")
     lines.append("")
+    # C: 高风险/卫星仓加仓 → 现成「选股」命令(下探到个股,仅建议,人工执行;类比 --fill)
+    hr = r["decisions"].get("high_risk")
+    if hr and hr.get("buy_this_period"):
+        lines.append(f"### 高风险/卫星仓 → 个股选择（可选，下探到个股）")
+        lines.append(f"高风险类本期 +{hr['gap_wan']}w、主题「{hr['theme']}」。如要选个股(卫星仓·小额)：")
+        lines.append("```")
+        lines.append(f"/选股 {hr['theme']} {hr['gap_wan']}")
+        lines.append("```")
+        lines.append("> 选股层=卫星仓个股(stock_selector)；仅建议、需人工 review；个股风险并入「股票含卫星 ≤60%」预算。")
+        lines.append("")
     lines.append("> ⚠️ 本决策为**建议**；主题选择保留人工最终裁量（铁律：产出需人工 review）。策库可在 theme_decider/decider.py 的 CLASS_THEMES 调整。")
     return "\n".join(lines)

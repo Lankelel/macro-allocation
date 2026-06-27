@@ -15,6 +15,12 @@ dependencies = [
     "packaging>=26.2",
 ]
 
+[project.optional-dependencies]
+# 美股选股(stock_selector UsSource)。默认不装;用时:uv run --extra us python -m stock_selector --market us ...
+us = [
+    "yfinance>=0.2",
+]
+
 [dependency-groups]
 dev = [
     "ipython>=8.0",
